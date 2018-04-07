@@ -38,11 +38,11 @@ def index():
     
     #if not are username and password the correct form
     if not username_error and not password_error and not verify_error and not email_error:
-        if username.strip() != username or len(username)<3:
-            username_error = "Your username cannot have spaces and must have 3+ characters."
+        if (" " in username) or len(username)<3 or len(username)>20:
+            username_error = "Your username cannot have spaces and must have 3-20 characters."
         
-        if password.strip() != password or len(password)<3:
-            password_error = "Your password cannot have spaces and must have 3+ characters."
+        if (" " in password) or len(password)<3 or len(password)>20:
+            password_error = "Your password cannot have spaces and must have 3-20 characters."
         
     #if not do the passwords match
     if not username_error and not password_error and not verify_error and not email_error:
@@ -51,8 +51,9 @@ def index():
         
     #if not is the email okay
     if not username_error and not password_error and not verify_error and not email_error:
-        if (email.strip() != "") and ((email.count("@")==1) or (email.count(".")==1) or (not (len(email)>3 and len(email)<20))):
-            email_error = "Your email is not valid."
+        if (email.strip() != ""):
+            if (email.count("@")!=1 or email.count(".")!=1) or len(email)<3 or len(email)>20 or (" " in email):
+                email_error = "Your email is not valid."
 
     if not username_error and not password_error and not verify_error and not email_error:
         return redirect("/confirmation?username=" + username)
